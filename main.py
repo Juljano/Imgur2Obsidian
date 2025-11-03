@@ -10,6 +10,7 @@ url = "https://api.imgur.com/3/image"
 class ImgurToObsidian:
     def __init__(self):
         self.root = tk.Tk()
+
         self.choose_button = tk.Button()
         self.upload_button = tk.Button()
         self.entry_field = tk.Entry()
