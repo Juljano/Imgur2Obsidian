@@ -23,3 +23,5 @@ A simple tool to upload images anonymously to Imgur and get a Markdown link for 
 
 - Images are uploaded anonymously and will not appear on any Imgur profile.
 - Only people with the direct link can access the images.
+
+![Preview|300](https://github.com/Juljano/Imgur2Obsidian/blob/tkinter/images/imgur2Obsidian-2.jpg)
