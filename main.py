@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog as fd
 import requests
 
-client_id = "SECRET" # You can find your client_id in the Developer Console under the "Network" tab
+client_id = "anonym"
 url = "https://api.imgur.com/3/image"
 
 
