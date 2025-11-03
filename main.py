@@ -2,8 +2,7 @@ import tkinter as tk
 from tkinter import filedialog as fd
 import requests
 
-
-client_id = "SECRET"
+client_id = "anonym"
 url = "https://api.imgur.com/3/image"
 
 
