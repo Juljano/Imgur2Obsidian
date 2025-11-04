@@ -1,10 +1,10 @@
-# Imgur Anonymous Uploader for Obsidian
+# Postimages Uploader for Obsidian
 
-A simple tool to upload images anonymously to Imgur and get a Markdown link for Obsidian.
+A simple tool to upload images to Postimages and get a Markdown link for Obsidian.
 
 ## Features
 
-- Upload images anonymously to Imgur
+- Upload images anonymously to Postimages
 - Receive a Markdown image link ready to paste into Obsidian
 - Easy and fast workflow for adding images to your notes
 
@@ -18,11 +18,7 @@ A simple tool to upload images anonymously to Imgur and get a Markdown link for 
 ## Requirements
 
 - Python 3.x
-
-## Notes
-
-- Images are uploaded anonymously and will not appear on any Imgur profile.
-- Only people with the direct link can access the images.
+- ChromeDriver
 
 ![Preview|300](https://github.com/Juljano/Imgur2Obsidian/blob/tkinter/images/imgur2Obsidian-2.jpg)
 
