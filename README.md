@@ -1,5 +1,12 @@
 # Postimages Uploader for Obsidian
 
+
+## Update (04.11.2025)
+
+Imgur has deactivated its API. As an alternative, I’ve switched to using the Postimages platform.
+
+
+
 A simple tool to upload images to Postimages and get a Markdown link for Obsidian.
 
 ## Features
