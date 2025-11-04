@@ -16,7 +16,7 @@ class ImgurToObsidian:
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=options)
 
         self.entry_field = None
         self.starting_webdriver()
