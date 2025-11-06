@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import filedialog as fd
 from selenium import webdriver
@@ -9,16 +10,27 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 
-
 class ImgurToObsidian:
     def __init__(self):
         self.root = tk.Tk()
-        webdriver_options = Options()
-        webdriver_options.add_argument("--headless")
-        webdriver_options.add_argument("--disable-gpu")
-        self.driver = webdriver.Chrome(options=webdriver_options)
+
+        if os.name == "nt": #windows
+            print("Windows detected")
+            webdriver_options = Options()
+            webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--disable-gpu")
+            self.driver = webdriver.Chrome(options=webdriver_options)
+
+        elif os.name == "posix": #Linux
+            print("Linux detected")
+            webdriver_options = Options()
+            #webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--disable-gpu")
+            webdriver_options.binary_location = "/usr/bin/brave-browser"
+            self.driver = webdriver.Chrome(options=webdriver_options)
 
         self.entry_field = None
+        self.message = None
         self.starting_webdriver()
         self.setup_gui()
 
@@ -60,23 +72,28 @@ class ImgurToObsidian:
         try:
             self.driver.get("https://postimages.org/login")
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "/html/body/main/div/div/div/h3"))
-            )
+                EC.presence_of_element_located((By.XPATH, "/html/body/main/div/div/div/h3")))
             self.login()
         except Exception as error:
             print(f"Webdriver error: {error}")
 
     def login(self):
         try:
-
             username_field = self.driver.find_element(By.XPATH, "//*[@id='email']")
-            username_field.send_keys("moellerjoy@outlook.com")
+            username_field.send_keys("secret")
 
             password_field = self.driver.find_element(By.XPATH, "//*[@id='password']")
-            password_field.send_keys("fG9tFyC6S2g6")
+            password_field.send_keys("secret")
 
             login_button = self.driver.find_element(By.XPATH, "/html/body/main/div/div/div/form[1]/button")
             login_button.click()
+
+            wait = WebDriverWait(self.driver, 10)
+            find_upload_button = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='ddinput']")))
+
+            if find_upload_button:
+                self.message = tk.Label(self.root, text="Erfolgreich eingeloggt")
+                self.message.pack()
 
         except Exception as error:
             print(f"Webdriver error: {error}")
