@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import filedialog as fd
 from selenium import webdriver
@@ -9,16 +10,27 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 
-
 class ImgurToObsidian:
     def __init__(self):
         self.root = tk.Tk()
-        options = Options()
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
-        self.driver = webdriver.Chrome(options=options)
+
+        if os.name == "nt": #windows
+            print("Windows detected")
+            webdriver_options = Options()
+            webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--disable-gpu")
+            self.driver = webdriver.Chrome(options=webdriver_options)
+
+        elif os.name == "posix": #Linux
+            print("Linux detected")
+            webdriver_options = Options()
+            #webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--disable-gpu")
+            webdriver_options.binary_location = "/usr/bin/brave-browser"
+            self.driver = webdriver.Chrome(options=webdriver_options)
 
         self.entry_field = None
+        self.message = None
         self.starting_webdriver()
         self.setup_gui()
 
@@ -60,25 +72,29 @@ class ImgurToObsidian:
         try:
             self.driver.get("https://postimages.org/login")
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div/div[1]/form[1]/div[1]/div[2]/input"))
-            )
+                EC.presence_of_element_located((By.XPATH, "/html/body/main/div/div/div/h3")))
             self.login()
         except Exception as error:
             print(f"Webdriver error: {error}")
 
     def login(self):
         try:
-            username_field = self.driver.find_element(By.XPATH, "/html/body/div/div/div/div/div[1]/form[1]/div[1]/div[2]/input")
-            username_field.send_keys("SECRET")
+            username_field = self.driver.find_element(By.XPATH, "//*[@id='email']")
+            username_field.send_keys("moellerjoy@outlook.com")
 
-            password_field = self.driver.find_element(By.XPATH, "/html/body/div/div/div/div/div[1]/form[1]/div[2]/div[2]/input")
-            password_field.send_keys("SECRET")
+            password_field = self.driver.find_element(By.XPATH, "//*[@id='password']")
+            password_field.send_keys("fG9tFyC6S2g6")
 
-            login_button = self.driver.find_element(By.XPATH, "//*[@id='content']/div/div/div[1]/form[1]/div[3]/div/input")
+            login_button = self.driver.find_element(By.XPATH, "/html/body/main/div/div/div/form[1]/button")
             login_button.click()
 
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//*[@id='content']/div/div[1]/div/h1")))
+            wait = WebDriverWait(self.driver, 10)
+            find_upload_button = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='ddinput']")))
+
+            if find_upload_button:
+                self.message = tk.Label(self.root, text="Erfolgreich eingeloggt")
+                self.message.pack()
+
         except Exception as error:
             print(f"Webdriver error: {error}")
 
@@ -109,6 +125,7 @@ class ImgurToObsidian:
 
             if response.status_code == 200:
                 image_link = response.json()['url']
+                print(f"![Title]({image_link})")
                 self.get_images_format(image_link)
             else:
                 error_label = tk.Label(self.root, text=f"Fehler beim Upload: {response.status_code}: {response.text}")
@@ -122,12 +139,10 @@ class ImgurToObsidian:
             response = requests.get(image_link)
             html = response.text
             soup = BeautifulSoup(html, 'html.parser')
-            image_tag = soup.find('img', {'id': 'main-image'})
+            image_tag = soup.find(id="direct")['value']
             if image_tag:
-                image_url = image_tag['src']
-
                 self.entry_field = tk.Entry(self.root, bd=2, width=70)
-                self.entry_field.insert(0, f"![Title]({image_url})")
+                self.entry_field.insert(0, f"![Title]({image_tag})")
                 self.entry_field.pack(pady=10)
             else:
                 print("Kein Bild mit ID 'main-image' gefunden.")
