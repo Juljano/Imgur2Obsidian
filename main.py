@@ -80,10 +80,10 @@ class ImgurToObsidian:
     def login(self):
         try:
             username_field = self.driver.find_element(By.XPATH, "//*[@id='email']")
-            username_field.send_keys("moellerjoy@outlook.com")
+            username_field.send_keys("secret")
 
             password_field = self.driver.find_element(By.XPATH, "//*[@id='password']")
-            password_field.send_keys("fG9tFyC6S2g6")
+            password_field.send_keys("secret")
 
             login_button = self.driver.find_element(By.XPATH, "/html/body/main/div/div/div/form[1]/button")
             login_button.click()
