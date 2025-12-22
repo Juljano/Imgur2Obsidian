@@ -24,7 +24,7 @@ class ImgurToObsidian:
         elif os.name == "posix": #Linux
             print("Linux detected")
             webdriver_options = Options()
-            #webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--headless")
             webdriver_options.add_argument("--disable-gpu")
             webdriver_options.binary_location = "/usr/bin/brave-browser"
             self.driver = webdriver.Chrome(options=webdriver_options)
