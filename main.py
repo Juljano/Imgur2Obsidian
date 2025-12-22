@@ -19,13 +19,15 @@ class ImgurToObsidian:
             webdriver_options = Options()
             webdriver_options.add_argument("--headless")
             webdriver_options.add_argument("--disable-gpu")
+            webdriver_options.add_argument("--window-size=1920,1080")
             self.driver = webdriver.Chrome(options=webdriver_options)
 
         elif os.name == "posix": #Linux
             print("Linux detected")
             webdriver_options = Options()
-            webdriver_options.add_argument("--headless")
+            webdriver_options.add_argument("--headless=new")
             webdriver_options.add_argument("--disable-gpu")
+            webdriver_options.add_argument("--window-size=1920,1080")
             webdriver_options.binary_location = "/usr/bin/brave-browser"
             self.driver = webdriver.Chrome(options=webdriver_options)
 
@@ -62,7 +64,7 @@ class ImgurToObsidian:
 
         image_path = fd.askopenfilename(
             title='Open an image',
-            initialdir='/',
+            initialdir='/home/janosch/Desktop',
             filetypes=filetypes
         )
         if image_path:
@@ -80,10 +82,10 @@ class ImgurToObsidian:
     def login(self):
         try:
             username_field = self.driver.find_element(By.XPATH, "//*[@id='email']")
-            username_field.send_keys("secret")
+            username_field.send_keys("moellerjoy@outlook.com")
 
             password_field = self.driver.find_element(By.XPATH, "//*[@id='password']")
-            password_field.send_keys("secret")
+            password_field.send_keys("fG9tFyC6S2g6")
 
             login_button = self.driver.find_element(By.XPATH, "/html/body/main/div/div/div/form[1]/button")
             login_button.click()
