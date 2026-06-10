@@ -1,4 +1,4 @@
-# Postimages Uploader for Obsidian
+# Postimages Uploader for Obsidian (outdated)
 
 
 ## Update (04.11.2025)
